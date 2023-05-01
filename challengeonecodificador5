@@ -1,0 +1,43 @@
+// Importar la librería crypto-js para utilizar AES
+const CryptoJS = require('crypto-js');
+
+// Definir la clave secreta
+const secretKey = 'miClaveSecreta';
+
+// Función para encriptar el texto
+function encryptText(text, key) {
+  // Convertir la clave a un objeto WordArray
+  const keyWordArray = CryptoJS.enc.Utf8.parse(key);
+
+  // Utilizar AES para encriptar el texto con la clave
+  const encryptedText = CryptoJS.AES.encrypt(text, keyWordArray, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  });
+
+  // Convertir el texto encriptado a una cadena de caracteres
+  return encryptedText.toString();
+}
+
+// Función para desencriptar el texto
+function decryptText(encryptedText, key) {
+  // Convertir la clave a un objeto WordArray
+  const keyWordArray = CryptoJS.enc.Utf8.parse(key);
+
+  // Utilizar AES para desencriptar el texto con la clave
+  const decryptedText = CryptoJS.AES.decrypt(encryptedText, keyWordArray, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  });
+
+  // Convertir el texto desencriptado a una cadena de caracteres
+  return decryptedText.toString(CryptoJS.enc.Utf8);
+}
+
+// Interfaz de usuario
+const text = prompt('Ingrese el texto a encriptar:');
+const encryptedText = encryptText(text, secretKey);
+console.log(`Texto encriptado: ${encryptedText}`);
+
+const decryptedText = decryptText(encryptedText, secretKey);
+console.log(`Texto desencriptado: ${decryptedText}`);
